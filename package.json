@@ -10,7 +10,8 @@
     "test": "jest --coverage",
     "dc:up": "docker-compose up --build -d",
     "dc:down": "docker-compose down",
-    "webbuild": "webpack --mode production"
+    "webbuildprod": "webpack --mode production",
+    "webbuilddev": "webpack --mode development --open"
   },
   "keywords": [
     "microservices",
@@ -53,7 +54,8 @@
     "moleculer-web": "^0.8.5",
     "sequelize": "^5.19.1",
     "sqlite3": "^4.1.0",
-    "vue": "^2.6.10"
+    "vue": "^2.6.10",
+    "vuex": "^3.1.1"
   },
   "engines": {
     "node": ">= 8.x.x"

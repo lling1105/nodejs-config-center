@@ -1,15 +1,26 @@
 <template>
-    <el-container v-bind:style='{height:main_window.height}'>
+    <el-container v-bind:style="{height:windowHeight+'px; text-align:left'}">
 
 
-        <el-header>Header</el-header>
+        <el-header>
+            <el-row :gutter="20">
+                <el-col :span="8"><div class="grid-content bg-purple logo"><i class="el-icon-setting"></i> Configer</div></el-col>
+                <el-col :span="16"><div class="grid-content bg-purple"></div></el-col>
+            </el-row>
+        </el-header>
         <el-container>
-            <el-aside width="200px">Aside</el-aside>
+            <el-aside width="200px">
+                <groupsSelector></groupsSelector>
+            </el-aside>
             <el-container>
                 <el-main>
-                    main
+                    <configEditor></configEditor>
+
+
+
+
                 </el-main>
-                <el-footer>Footer</el-footer>
+                <el-footer></el-footer>
             </el-container>
         </el-container>
 
@@ -17,14 +28,17 @@
     </el-container>
 </template>
 <script>
-
+    import groupsSelector from "../components/groupsSelector.vue";
+    import configEditor from "../components/configEditor.vue"
     export default {
+        components:{
+            groupsSelector,
+            configEditor
+        },
+
         data() {
             return {
-                main_window: {
-                    width: 0,
-                    height: 0
-                }
+
             }
         },
         created(){
@@ -34,13 +48,17 @@
         destroyed() {
             window.removeEventListener('resize', this.handleResize)
         },
-        mounted: async () => {
+        mounted: () => {
 
         },
         methods:{
             handleResize() {
-                this.main_window.width = window.innerWidth;
-                this.main_window.height = window.innerHeight;
+                this.$store.commit('setWindowSize',{width:window.innerWidth,height:window.innerHeight});
+            }
+        },
+        computed:{
+            windowHeight(){
+                return this.$store.state.window_height;
             }
         }
     }
@@ -67,20 +85,30 @@
         background-color: #FFFFFF;
         color: #333;
         text-align: center;
-        line-height: 200px;
+        padding:10px;
         border-right: 1px solid #DCDFE6;
     }
 
     .el-main {
         background-color: #FFFFFF;
         color: #333;
-        text-align: center;
+
         line-height: 160px;
     }
-
+    body {
+        margin:0px;
+        overflow-x: hidden;
+        overflow-y: hidden;
+    }
     body > .el-container {
         margin-bottom: 40px;
 
+    }
+    .logo{
+        font-size: 28px;
+        color:#409EFF;
+        text-align: left;
+        font-weight: bolder;
     }
 
 
