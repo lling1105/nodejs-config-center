@@ -1,0 +1,118 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>JSONEditor | Dynamic Auto Complete</title>
+
+  <link href="../dist/jsoneditor.css" rel="stylesheet" type="text/css">
+  <script src="../dist/jsoneditor.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+
+  <style type="text/css">
+    #jsoneditor {
+      width: 500px;
+      height: 500px;
+    }
+
+    p {
+      width: 500px;
+      font-family: "DejaVu Sans", sans-serif;
+    }
+  </style>
+
+</head>
+<body>
+<p>
+  This example demonstrates how to autocomplete works, options available are dynamics and consist in all the strings found in the json
+</p>
+
+<div id="jsoneditor"></div>
+
+<script>
+  // create the editor
+  const container = document.getElementById('jsoneditor')
+  const options = {
+    autocomplete: {
+      applyTo:['value'],
+      filter: 'contain',
+      trigger: 'focus',
+      getOptions: function (text, path, input, editor) {
+        return new Promise(function (resolve, reject) {
+          const options = extractUniqueWords(editor.get())
+          if (options.length > 0) {
+            resolve(options)
+          } else {
+            reject()
+          }
+        })
+      }
+    }
+  }
+
+  // helper function to extract all unique words in the keys and values of a JSON object
+  function extractUniqueWords (json) {
+    return _.uniq(_.flatMapDeep(json, function (value, key) {
+      return _.isObject(value)
+              ? [key]
+              : [key, String(value)]
+    }))
+  }
+
+  const json = {
+    "jwtCecret": "jwt_18551796656",
+    "mongodbUrl": "mongodb://root:d3c285fa26@50.1.13.221:9088",
+    "tj": "http://50.1.64.37:9083",
+    "tjLoginMode": 0,
+    "tjAdmin": {
+      "username": "admin",
+      "password": "a123456"
+    },
+    "tjAppId": "001",
+    "tjAPI": {
+      "login": "/auth/loginUserAuth",
+      "changePWD": "/user/modify_password",
+      "resetPWD": "/user/reset_password",
+      "resources": "/api/resource/getResourceNodeByOrg"
+    },
+    "tj_resources": {
+      "host": "50.1.64.37",
+      "port": 9082
+    },
+    "srs_resources": {
+      "host": "50.1.13.185",
+      "port": 16220
+    },
+    "srsApi": {
+      "materialGetAll": "/material/getall",
+      "panosceneGetAll": "/panoscene/getall"
+    },
+    "searchScore": 0.7,
+    "port": 7000,
+    "dateColumn": [
+      "createAt",
+      "updateAt",
+      "timeLowLimit",
+      "timeUpLimit",
+      "clueTime",
+      "startTime",
+      "endTime"
+    ],
+    "isOpenWriteDataLog": true,
+    "fsUrl": "http://123.207.1.245:13034",
+    "sso_secret": "SBCarzeX2MJdcQmRHEAX6rmc5wCGfP",
+    "openSAK": false,
+    "sakAPi": {
+      "sakip": "http://172.16.90.179:9000",
+      "openid": "E5863146858645308DE5FD74928A73DC",
+      "ticket": "74ed8ef5b3e6040fd6bfb6e5b835acc7",
+      "orgid": "d0b66e106cbb9ba1d44f4d26b2d49984",
+      "roleid": 94,
+      "timeout": "36000000"
+    },
+    "sakSys": {
+      "reg": "/system/api/system/sysuser"
+    }
+  }
+  const editor = new JSONEditor(container, options, json)
+</script>
+</body>
+</html>

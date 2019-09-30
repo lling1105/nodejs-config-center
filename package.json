@@ -1,0 +1,69 @@
+{
+  "name": "nodejs-config-center",
+  "version": "1.0.0",
+  "description": "My Moleculer microservices project",
+  "scripts": {
+    "dev": "moleculer-runner --repl --hot services",
+    "start": "moleculer-runner",
+    "cli": "moleculer connect ",
+    "ci": "jest --watch",
+    "test": "jest --coverage",
+    "dc:up": "docker-compose up --build -d",
+    "dc:down": "docker-compose down",
+    "webbuild": "webpack --mode production"
+  },
+  "keywords": [
+    "microservices",
+    "moleculer"
+  ],
+  "author": "",
+  "devDependencies": {
+    "jest": "^24.8.0",
+    "jest-cli": "^24.8.0",
+    "moleculer-repl": "^0.5.7",
+    "autoprefixer": "^9.3.1",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-vue-app": "^2.0.0",
+    "css-loader": "^1.0.1",
+    "element-theme-chalk": "^2.4.11",
+    "eslint": "^5.9.0",
+    "eslint-plugin-vue": "^5.0.0-beta.2",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "file-loader": "^2.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "node-sass": "^4.11.0",
+    "postcss-loader": "^3.0.0",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "url-loader": "^1.1.2",
+    "vue-loader": "^15.4.2",
+    "vue-template-compiler": "^2.5.17",
+    "webpack": "^4.26.0",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10"
+  },
+  "dependencies": {
+    "axios": "^0.19.0",
+    "element-ui": "^2.12.0",
+    "jsoneditor": "^7.0.4",
+    "moleculer": "^0.13.9",
+    "moleculer-db-adapter-sequelize": "^0.2.2",
+    "moleculer-web": "^0.8.5",
+    "sequelize": "^5.19.1",
+    "sqlite3": "^4.1.0",
+    "vue": "^2.6.10"
+  },
+  "engines": {
+    "node": ">= 8.x.x"
+  },
+  "jest": {
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node",
+    "rootDir": "./services",
+    "roots": [
+      "../test"
+    ]
+  }
+}
