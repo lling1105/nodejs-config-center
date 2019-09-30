@@ -1,5 +1,5 @@
 <template>
-    <el-container v-bind:style="{height:windowHeight+'px; text-align:left'}">
+    <el-container v-bind:style="{height:windowHeight+'px'}">
 
 
         <el-header>

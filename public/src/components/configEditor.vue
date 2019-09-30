@@ -3,84 +3,45 @@
 </template>
 
 <script>
+    import data from "../helper/data"
     export default {
         mounted() {
             this.initiate();
         },
-        computed:{
-            windowHeight(){
-                return this.$store.state.window_height-160;
+        data() {
+            return {
+                schemaJson: {},
+                configJson: {}
+            }
+        },
+        computed: {
+            windowHeight() {
+                return this.$store.state.window_height - 160;
+            }
+
+
+        },
+        watch: {
+            '$store.state.selectedGroup':async function (newValue, oldValue) {
+                this.schemaJson = await this.loadSchema(newValue);
+                this.initiate();
             }
         },
         methods: {
             initiate() {
-                const schema = {
-                    "title": "Employee",
-                    "description": "Object containing employee details",
-                    "type": "object",
-                    "properties": {
-                        "firstName": {
-                            "title": "First Name",
-                            "description": "The given name.",
-                            "examples": [
-                                "John"
-                            ],
-                            "type": "string"
-                        },
-                        "lastName": {
-                            "title": "Last Name",
-                            "description": "The family name.",
-                            "examples": [
-                                "Smith"
-                            ],
-                            "type": "string"
-                        },
-                        "gender": {
-                            "title": "Gender",
-                            "enum": ["male", "female"]
-                        },
-                        "availableToHire": {
-                            "type": "boolean",
-                            "default": false
-                        },
-                        "age": {
-                            "description": "Age in years",
-                            "type": "integer",
-                            "minimum": 0,
-                            "examples": [28, 32]
-                        },
-                        "job": {
-                            "$ref": "job"
-                        }
-                    },
-                    "required": ["firstName", "lastName"]
-                }
-
-                const job = {}
-
-                const json = {
-                    firstName: 'John',
-                    lastName: 'Doe',
-                    gender: null,
-                    age: "28",
-                    availableToHire: true,
-                    job: {
-                        company: 'freelance',
-                        role: 'developer',
-                        salary: 100
-                    }
-                }
-
+                const schema = this.schemaJson;
                 const options = {
                     schema: schema,
-                    schemaRefs: {"job": job},
-                    mode: 'tree',
-                    modes: ['tree', 'preview']
+                    mode: 'text',
+                    modes: ['text', 'tree', 'preview']
                 }
 
                 // create the editor
                 const container = document.getElementById('jsoneditor')
-                const editor = new JSONEditor(container, options, json)
+                const editor = new JSONEditor(container, options, this.configJson)
+            },
+            async loadSchema(groupName){
+                this.schemaJson = await data.getGroupSchema(groupName);
             }
         }
     }
