@@ -28,15 +28,16 @@ module.exports = {
             params: {
                 configGroup: "string"
             },
-            handler(ctx) {
-				let schemaString = this.getSchemaJson(ctx.params.configGroup);
-				try{
-					let schemaJSON = JSON.parse(schemaString);
-					return schemaJSON;
-				}catch(err){
-					throw new MoleculerError("Not valid JSON schema file", 501, "Invalid JSON", { configGroup:ctx.params.configGroup });
+            async handler(ctx) {
+				let jsonSchema = await this.getSchemaJson(ctx.params.configGroup);
+                try{
+                    let schemaJSON = JSON.parse(jsonSchema);
+                    return schemaJSON;
+                }catch(err){
+                    return new MoleculerError("Not valid JSON schema file", 501, "Invalid JSON", { configGroup:ctx.params.configGroup });
 
-				}
+                }
+
             }
         },
         getConfig: {
@@ -86,22 +87,16 @@ module.exports = {
                 })
             });
         },
-        getSchemaJson(configGroup) {
-			return new Promise((resolve, reject) => {
-				let fileFullPath = path.join(schemaPath,configGroup);
-				if(fs.existsSync(fileFullPath)){
-					fs.readFile(fileFullPath,function(err,data){
-						if(err){
-							reject(err);
-						}else{
-							resolve(data.toString())
-						}
-					});
-				}else{
-					reject(new Error("Config group not existed"))
-				}
+        async getSchemaJson(configGroup) {
+            let fileFullPath = path.join(schemaPath,configGroup);
 
-			});
+            if(fs.existsSync(fileFullPath)){
+                let jsonstring = fs.readFileSync(fileFullPath);
+                return jsonstring.toString()
+            }else{
+                throw new MoleculerError("file not existed",501,"file not existed",{})
+            }
+
         }
     },
 
