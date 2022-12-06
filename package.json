@@ -52,7 +52,7 @@
     "lodash": "^4.17.15",
     "moleculer": "^0.13.9",
     "moleculer-db-adapter-sequelize": "^0.2.2",
-    "moleculer-web": "^0.8.5",
+    "moleculer-web": "^0.10.4",
     "sequelize": "^5.19.1",
     "sqlite3": "^4.1.0",
     "vue": "^2.6.10",
